@@ -114,7 +114,7 @@
   }
 }
 
-.backdrop-blur_safari {
+.backdrop--blur__safari {
   -webkit-backdrop-filter: blur(5px);
 }
 
@@ -155,41 +155,25 @@
 }
 
 .radial--gradient--pink {
-  background-image: radial-gradient(
-    at center,
-    rgba(148, 52, 230, 0.1) 10%,
-    transparent 50%
-  );
+  background-image: radial-gradient(at center, rgba(148, 52, 230, 0.1) 10%, transparent 50%);
   background-size: 70% 80%;
   background-repeat: no-repeat;
 }
 
 .radial--gradient--automations {
-  background-image: radial-gradient(
-    at top left,
-    rgba(51, 82, 204, 0.05) 40%,
-    #1d1d1d 60%
-  );
+  background-image: radial-gradient(at top left, rgba(51, 82, 204, 0.05) 40%, #1d1d1d 60%);
   background-size: 40% 100%;
   background-repeat: no-repeat;
 }
 
 .radial--double-gradient-cards--top {
-  background-image: radial-gradient(
-    at top left,
-    rgba(51, 82, 204, 0.3) 50%,
-    transparent 70%
-  );
+  background-image: radial-gradient(at top left, rgba(51, 82, 204, 0.3) 50%, transparent 70%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
 .radial--double-gradient-cards--bottom {
-  background-image: radial-gradient(
-    at bottom right,
-    rgba(51, 82, 204, 0.1) 50%,
-    transparent 70%
-  );
+  background-image: radial-gradient(at bottom right, rgba(51, 82, 204, 0.1) 50%, transparent 70%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
