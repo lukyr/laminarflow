@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { Home, Workflow, User, Settings, Blocks } from 'lucide-react';
 
-type FieldProps = {
+export type FieldProps = {
   label: string;
   id: string;
 };

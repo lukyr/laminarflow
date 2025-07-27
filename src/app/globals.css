@@ -144,7 +144,7 @@
   background: var(--scrollbar-thumb-hover);
 }
 
-.radial-gradient {
+.radial--gradient {
   background-image: radial-gradient(
     ellipse farthest-side,
     rgba(51, 82, 204, 0.15) 20%,

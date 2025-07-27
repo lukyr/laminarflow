@@ -1,4 +1,4 @@
-import Navbar from '@/components/global/navbar';
+import InfoBar from '@/components/global/infobar';
 import Sidebar from '@/components/global/sidebar';
 import React from 'react';
 
@@ -14,7 +14,8 @@ const Layout = ({ children, params }: Props) => {
       <Sidebar slug={params.slug} />
       {/* Navbar */}
       <div className="flex flex-col overflow-auto lg:ml-[250px] lg:py-5 lg:pl-10">
-        <Navbar slug={params.slug} />
+        <InfoBar slug={params.slug} />
+        {children}
       </div>
     </div>
   );
