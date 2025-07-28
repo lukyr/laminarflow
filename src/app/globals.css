@@ -112,6 +112,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  html {
+    @apply scroll-smooth;
+  }
 }
 
 .backdrop--blur__safari {
@@ -176,4 +180,52 @@
   background-image: radial-gradient(at bottom right, rgba(51, 82, 204, 0.1) 50%, transparent 70%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+
+@layer utilities {
+  /* Custom utility classes using Tailwind */
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  .hover-lift:hover {
+    @apply -translate-y-2 shadow-2xl shadow-purple-500/20;
+  }
+
+  .nav-underline {
+    @apply relative overflow-hidden;
+  }
+  .nav-underline::after {
+    @apply absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300 ease-in-out;
+    content: '';
+  }
+  .nav-underline:hover::after {
+    @apply w-full;
+  }
+
+  .btn-shimmer {
+    @apply relative overflow-hidden;
+  }
+  .btn-shimmer::before {
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-500;
+    content: '';
+  }
+  .btn-shimmer:hover::before {
+    @apply translate-x-full;
+  }
 }

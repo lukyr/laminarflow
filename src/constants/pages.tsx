@@ -16,3 +16,30 @@ export const PAGE_ICON: Props = {
   SETTINGS: <Settings />,
   HOME: <Home />,
 };
+
+export const PLANS = [
+  {
+    name: 'Free',
+    description: 'Perfect for getting started with Instagram automation',
+    price: '$0',
+    features: [
+      'Boost engagement',
+      'Automate comment replies to enhance audience interaction',
+      'Turn followers into customers with targeted messaging',
+    ],
+    cta: 'Get Started Free',
+  },
+  {
+    name: 'Smart AI Plan',
+    description: 'Advanced features for power users',
+    price: '$99',
+    features: [
+      'All features of the free plan',
+      'AI-powered response generation',
+      'Advanced Analytics and insights',
+      'Priority customer support',
+      'Custom branding options',
+    ],
+    cta: 'Upgrade Now',
+  },
+];
