@@ -1,24 +1,37 @@
 'use client';
 import { usePaths } from '@/hooks/user-nav';
-import { cn } from '@/lib/utils';
+import { cn, getMonth } from '@/lib/utils';
 import Link from 'next/link';
-import React from 'react';
+import React, { useMemo } from 'react';
 import GradientButton from '../gradient-button';
 import { Button } from '@/components/ui/button';
-import { useQueryAutomations } from '@/hooks/user-queries';
+import { useQueryAutomations } from '@/hooks/use-queries';
 import CreateAutomation from '../create-automation';
+import { useMutationDataState } from '@/hooks/use-mutation-data';
 
 type Props = {};
 
 const AutomationList = (props: Props) => {
   const { pathname } = usePaths();
   const { data } = useQueryAutomations();
-  console.log(data);
+  const { latestVariable } = useMutationDataState(['create-automation']);
 
-  if (data?.status !== 200 || data.data.length <= 0) {
+  const optimisticUiData = useMemo(() => {
+    if (!data) return null;
+
+    if (latestVariable?.variables) {
+      return {
+        ...data,
+        data: [latestVariable.variables, ...data.data],
+      };
+    }
+    return data;
+  }, [latestVariable, data]);
+
+  if (!optimisticUiData || optimisticUiData.status !== 200 || optimisticUiData.data.length <= 0) {
     return (
       <div className="flex h-[70vh] flex-col items-center justify-center gap-y-3">
-        <h3 className="text-lg text-gray-400">No automations created</h3>
+        <h3 className="text-lg text-gray-400">No Automations</h3>
         <CreateAutomation />
       </div>
     );
@@ -26,44 +39,60 @@ const AutomationList = (props: Props) => {
 
   return (
     <div className="flex flex-col gap-y-3">
-      <Link
-        className="radial--gradient-automations flex rounded-xl border-[1px] border-[#545454] bg-[#1D1D1D] p-5 transition duration-100 hover:opacity-80"
-        href={`${pathname}/12345`}
-      >
-        <div className="flex flex-1 flex-col items-start">
-          <h2 className="text-xl font-semibold">Automation Name</h2>
-          <p className="text=[#9B9CA0] mb-2 text-sm font-light">This is from comment</p>
-          {/* WIP: AUtomation Keywords */}
-          <div className="mt-3 flex flex-wrap gap-x-2">
-            <div
-              className={cn(
-                'rounded-full px-4 py-1 capitalize',
-                (0 + 1) % 1 == 0 && 'border-2 border-keyword-green bg-keyword-green/15',
-                (1 + 1) % 2 == 0 && 'border-2 border-keyword-purple bg-keyword-purple/15',
-                (2 + 1) % 3 == 0 && 'border-2 border-keyword-yellow bg-keyword-yellow/15',
-                (3 + 1) % 4 == 0 && 'border-2 border-keyword-red bg-keyword-red/15'
-              )}
-            >
-              Get Started
-            </div>
-          </div>
-          <div className="mt-3 rounded-full border-2 border-dashed border-white/60 px-3 py-1">
-            <p className="text-sm text-[#bfc0c3]">No Keyword</p>
-          </div>
-        </div>
-        <div className="flex flex-col justify-between">
-          <p className="text-sm capitalize text-[#9B9CA0]">Aug 28th 2025</p>
+      {optimisticUiData.data!.map((automation) => (
+        <Link
+          className="radial--gradient-automations flex rounded-xl border-[1px] border-[#545454] bg-[#1D1D1D] p-5 transition duration-100 hover:opacity-80"
+          key={automation.id}
+          href={`${pathname}/${automation.id}`}
+        >
+          <div className="flex flex-1 flex-col items-start">
+            <h2 className="text-xl font-semibold">{automation.name}</h2>
+            <p className="mb-2 text-sm font-light text-[#9B9CA0]">This is from comment</p>
 
-          {/* WIP: Render the button baesd on the listener */}
-          <GradientButton
-            type="BUTTON"
-            className="w-full bg-background-88 text-white hover:bg-background-88"
-          >
-            Smart AI
-          </GradientButton>
-          <Button className="bg-background-88 text-white hover:bg-background-88">Standard</Button>
-        </div>
-      </Link>
+            {automation.keywords.length > 0 ? (
+              <div className="mt-3 flex flex-wrap gap-x-2">
+                <div
+                  className={cn(
+                    'rounded-full px-4 py-1 capitalize',
+                    (0 + 1) % 1 == 0 && 'border-2 border-keyword-green bg-keyword-green/15',
+                    (1 + 1) % 2 == 0 && 'border-2 border-keyword-purple bg-keyword-purple/15',
+                    (2 + 1) % 3 == 0 && 'border-2 border-keyword-yellow bg-keyword-yellow/15',
+                    (3 + 1) % 4 == 0 && 'border-2 border-keyword-red bg-keyword-red/15'
+                  )}
+                >
+                  Get Started
+                </div>
+              </div>
+            ) : (
+              <div className="mt-3 rounded-full border-2 border-dashed border-white/60 px-3 py-1">
+                <p className="text-sm text-[#bfc0c3]">No Keyword</p>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col justify-between">
+            <p className="text-sm capitalize text-[#9B9CA0]">
+              {getMonth(automation.createdAt.getUTCMonth() + 1)}{' '}
+              {automation.createdAt.getUTCDate() === 1
+                ? `${automation.createdAt.getUTCDate()}st`
+                : `${automation.createdAt.getUTCDate()}th`}{' '}
+              {automation.createdAt.getUTCFullYear()}
+            </p>
+
+            {automation.listener?.listener === 'SMARTAI' ? (
+              <GradientButton
+                type="BUTTON"
+                className="w-full bg-background-88 text-white hover:bg-background-88"
+              >
+                Smart AI
+              </GradientButton>
+            ) : (
+              <Button className="bg-background-88 text-white hover:bg-background-88">
+                Standard
+              </Button>
+            )}
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };
