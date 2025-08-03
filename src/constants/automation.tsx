@@ -28,7 +28,7 @@ export const AUTOMATION_TRIGGERS: AutomationTriggerProps[] = [
   },
   {
     id: v4(),
-    label: 'Send me a dm with keyword',
+    label: 'User sends me a DM with a keyword',
     icon: <LogoInstagram />,
     description: 'Select if you want to automate direct messages on your profile',
     type: 'DM',
