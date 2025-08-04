@@ -56,7 +56,7 @@ const AutomationsBreadCrumb = ({ id }: Props) => {
           <p className="min-w-0 truncate text-sm text-text-secondary">Changes Saved</p>
         </div>
       </div>
-      <ActiveAutomationButton />
+      <ActiveAutomationButton id={id} />
     </div>
   );
 };

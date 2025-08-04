@@ -1,20 +1,30 @@
 import { Button } from '@/components/ui/button';
 import React from 'react';
 import Loader from '../loader';
-import { InspectionPanelIcon, Rss } from 'lucide-react';
+import { InspectionPanelIcon, Loader2, Rss } from 'lucide-react';
+import { useQueryAutomation } from '@/hooks/use-queries';
+import { useMutationData } from '@/hooks/use-mutation-data';
+import { activateAutomation } from '@/actions/automations';
 
-type Props = {};
+type Props = {
+  id: string;
+};
 
-const ActiveAutomationButton = (props: Props) => {
-  //WIP: Setup optimistic ui
-  //WIP getch some automation data
+const ActiveAutomationButton = ({ id }: Props) => {
+  const { data } = useQueryAutomation(id);
+  const { isPending, mutate } = useMutationData(
+    ['activate'],
+    (data: { state: boolean }) => activateAutomation(id, data.state),
+    'automation-info'
+  );
   return (
-    <Button className="mx-2 ml-4 rounded-full bg-gradient-to-br from-[#3352CC] to-[#1C2D70] font-medium text-white hover:opacity-80 lg:px-10">
-      {/*WIP Set the loading state*/}
-      <Loader state={false}>
-        <Rss />
-        <p className="hidden lg:inline">Activate</p>
-      </Loader>
+    <Button
+      disabled={isPending}
+      onClick={() => mutate({ state: !data?.data?.active })}
+      className="mx-2 ml-4 rounded-full bg-gradient-to-br from-[#3352CC] to-[#1C2D70] font-medium text-white hover:opacity-80 lg:px-10"
+    >
+      {isPending ? <Loader2 className="animate-spin" /> : <Rss />}
+      <p className="hidden lg:inline">{data?.data?.active ? 'Disable' : 'Activate'}</p>
     </Button>
   );
 };
