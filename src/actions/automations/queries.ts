@@ -44,6 +44,20 @@ export const findAutomation = async (id: string) => {
       listener: true,
       trigger: true,
       posts: true,
+      User: {
+        select: {
+          subscription: {
+            select: {
+              plan: true,
+            },
+          },
+          integrations: {
+            select: {
+              token: true,
+            },
+          },
+        },
+      },
     },
   });
 };

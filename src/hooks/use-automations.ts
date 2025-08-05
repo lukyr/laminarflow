@@ -8,7 +8,7 @@ import {
   updateAutomationName,
 } from '@/actions/automations';
 import { useMutationData } from './use-mutation-data';
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import useZodForm from './use-zod-form';
 import { AppDispatch, useAppSelector } from '@/redux/store';
